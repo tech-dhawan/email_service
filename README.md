@@ -1,106 +1,126 @@
-Email Service (Ruby on Rails)
-This is a dedicated Ruby on Rails service designed to manage and dispatch transactional emails. It leverages Action Mailer and background processing to ensure high performance and reliability.
+# Email Service API (Ruby on Rails)
 
-🚀 Features
-RESTful API: Endpoints to trigger emails from external services or frontend applications.
+Ruby Version: 3.2.0
 
-Action Mailer Integration: Clean, reusable mailer templates using Embedded Ruby (ERB).
+Rails Version: 7.1.0
 
-Background Jobs: Integrated with Active Job (Sidekiq/Delayed Job) to handle delivery asynchronously.
+License: MIT
 
-Environment-Specific Configs: Seamlessly switch between Letter Opener (development), Mailtrap (staging), and SendGrid/AWS SES (production).
+Build Status: Passing
 
-Health Checks: Endpoint to verify service and mail server connectivity.
+A high-performance, dedicated microservice built with Ruby on Rails for managing and dispatching transactional emails. This service abstracts email logic from your main application, providing a clean API for communication with built-in support for background processing and multiple SMTP providers.
 
-🛠️ Tech Stack
-Framework: Ruby on Rails (v7.x preferred)
+## 🚀 Key Features
 
-Language: Ruby (v3.x preferred)
+RESTful API Interface: Trigger email deliveries via standard JSON POST requests.
 
-Database: PostgreSQL / MySQL
+Asynchronous Processing: Powered by Sidekiq and Redis to ensure non-blocking application performance.
 
-Job Queue: Sidekiq (requires Redis)
+Action Mailer Integration: Leverages Rails' native mailer for structured, maintainable, and reusable templates.
 
-Testing: RSpec / Minitest
+Dynamic Templating: Full support for HTML and Plain Text templates using ERB (Embedded Ruby).
 
-📋 Prerequisites
-Ensure you have the following installed on your local machine:
+Error Resilience: Built-in retry mechanisms for SMTP failures and delivery tracking.
 
-Ruby 3.x
+Environment Flexibility: Easily switch between development tools like Mailtrap or Letter Opener and production services like SendGrid or AWS SES.
 
-Rails 7.x
+## 🛠️ Tech Stack
 
-PostgreSQL
+Framework: Ruby on Rails 7.x
 
-Redis (if using Sidekiq for background jobs)
+Language: Ruby 3.x
 
-⚙️ Installation & Setup
-Clone the Repository:
+Database: PostgreSQL (for tracking delivery logs and status)
 
-Bash
-git clone https://github.com/tech-dhawan/email_service.git
+Background Jobs: Sidekiq
+
+Data Store: Redis (for Sidekiq job queuing)
+
+Testing: RSpec (Unit & Integration)
+
+## 📋 Prerequisites
+
+Ensure your environment meets the following requirements:
+
+Ruby: 3.2.x
+
+Rails: 7.x.x
+
+PostgreSQL: 14+
+
+Redis: 6.2+ (Required for background job processing)
+
+## ⚙️ Installation & Configuration
+
+1. Clone the Repository git clone https://github.com/tech-dhawan/email_service.git
+
 cd email_service
-Install Dependencies:
 
-Bash
-bundle install
-Database Configuration:
-Update config/database.yml with your credentials, then run:
+2. Install Ruby Gems bundle install
 
-Bash
-rails db:create
-rails db:migrate
-Environment Variables:
-Create a .env file in the root directory and add your SMTP/API details:
+3. Database Initialization rails db:prepare
 
-Code snippet
+4. Environment Variables Create a .env file in the root directory and populate it with your specific configurations:
+
+Database Configuration
+DATABASE_URL=postgres://localhost/email_service_development
+
+SMTP / Mailer Configuration
 SMTP_ADDRESS=smtp.sendgrid.net
+
 SMTP_PORT=587
-SMTP_USER_NAME=apikey
-SMTP_PASSWORD=your_api_key
-DEFAULT_FROM_EMAIL=notifications@yourdomain.com
-Start the Server:
 
-Bash
-rails server
-Start Background Workers (Sidekiq):
+SMTP_USER_NAME=your_api_key_username
 
-Bash
-bundle exec sidekiq
-🔌 API Usage
-Send a Transactional Email
-Endpoint: POST /api/v1/emails
+SMTP_PASSWORD=your_secure_password
 
-Request Body:
+SMTP_DOMAIN=your_domain.com
 
-JSON
-{
-  "email": {
-    "recipient": "user@example.com",
-    "subject": "Welcome!",
-    "template_id": "welcome_notice",
-    "data": {
-      "first_name": "John"
-    }
-  }
+Application Defaults
+DEFAULT_SENDER_EMAIL=noreply@yourdomain.com
+
+5. Running the Application Open two terminal instances to run the web server and the background worker simultaneously:
+
+Terminal 1 (Web API): rails server
+
+Terminal 2 (Sidekiq Worker): bundle exec sidekiq
+
+## 🔌 API Documentation
+
+### Send a Transactional Email Endpoint: POST /api/v1/emails/send
+
+Request Headers: Content-Type: application/json
+
+Request Payload: {
+"email": {
+"to": "client@example.com",
+"subject": "Thank you for your inquiry",
+"template": "customer_welcome",
+"context": {
+"first_name": "Rohan",
+"action_url": "https://bladeworkstudio.ca"
 }
-🧪 Running Tests
-To ensure the mailers and logic are functioning correctly, run the test suite:
+}
+}
 
-Bash
-# Using RSpec
-bundle exec rspec
+Responses: * 202 Accepted: Email has been successfully queued for delivery.
 
-# Using Minitest
-rails test
-📁 Project Structure
-app/mailers/: Contains the logic for constructing emails.
+422 Unprocessable Entity: Validation error (e.g., missing recipient or invalid template).
 
-app/views/user_mailer/: HTML and Text templates for email content.
+## 🧪 Testing & Quality Assurance
 
-app/jobs/: Background job logic for queueing deliveries.
+This project maintains high code quality standards through automated testing and linting.
 
-config/initializers/mail.rb: Custom SMTP configurations.
+Run Test Suite: bundle exec rspec
 
-📄 License
-This project is open-source and available under the MIT License.
+Run Static Code Analysis (RuboCop): bundle exec rubocop
+
+## 📄 License Distributed under the MIT License. See LICENSE for more information.
+
+## 👤 Author Rohan Dhawan
+
+GitHub: @tech-dhawan
+
+LinkedIn: linkedin.com/in/rohan-dhawan/
+
+Location: Toronto, ON
