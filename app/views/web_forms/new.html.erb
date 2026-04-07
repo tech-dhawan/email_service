@@ -1,0 +1,199 @@
+<div class="contact-wrapper">
+  <div class="contact-section">
+    <h1 class="form-title">LET'S DISCUSS YOUR IDEA</h1>
+    <p class="form-subtitle">Our team is looking forward to discussing the scope of your future project. Don't hesitate to contact us and we'll help your business skyrocket!</p>
+
+
+<% if flash[:notice] %>
+  <div id="flash-toast" class="toast-popup">
+    <div class="toast-content">
+      <span class="check-icon">✓</span>
+      <p><%= flash[:notice] %></p>
+    </div>
+    <div class="progress-bar"></div>
+  </div>
+<% end %>
+
+<%# Rest of your form code goes here... %>
+    <%= form_with model: @web_form, class: "modern-form" do |f| %>
+      <div class="form-row">
+        <div class="field-group">
+          <%= f.text_field :name, placeholder: "First Name (*)", required: true %>
+        </div>
+        <div class="field-group">
+          <%= f.text_field :last_name, placeholder: "Last Name (*)", required: true %>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="field-group">
+          <%= f.text_field :company, placeholder: "Company (*)", required: true %>
+        </div>
+        <div class="field-group">
+          <%= f.email_field :email, placeholder: "Email (*)", required: true %>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="field-group">
+          <%= f.select :budget, WebForm::BUDGET_OPTIONS, { prompt: "Budget (*)" }, { required: true, class: "custom-select" } %>
+        </div>
+        <div class="field-group">
+          <%= f.select :payment_method, WebForm::PAYMENT_METHODS, { prompt: "Preferred Method of Payment (*)" }, { required: true, class: "custom-select" } %>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="field-group date-picker-group full-width">
+          <label class="floating-label">Preferable date to contact (*)</label>
+          <%= f.date_field :contact_date, required: true %>
+        </div>
+      </div>
+
+      <div class="field-group full-width">
+        <%= f.text_area :message, placeholder: "Message", rows: 1 %>
+      </div>
+
+      <div class="footer-meta">
+        <div class="upload-trigger">
+          <span class="icon">⬆️</span> UPLOAD FILE
+        </div>
+        <div class="privacy-notice">
+          <span class="icon">🛡️</span> 
+          <p>By sending this form you agree to our Privacy Policy. The information you provide will be added to our CRM system for further communication.</p>
+        </div>
+      </div>
+
+      <div class="actions">
+        <%= f.submit "SEND MESSAGE", class: "btn-solid-black" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<style>
+  /* Single-page constraints */
+  html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #fff; }
+  .contact-wrapper { display: flex; align-items: center; justify-content: center; height: 100vh; padding: 20px; box-sizing: border-box; }
+  
+  .contact-section { max-width: 850px; width: 100%; font-family: 'Helvetica Neue', Helvetica, sans-serif; color: #000; }
+  .form-title { font-size: 2.4rem; font-weight: 300; letter-spacing: 2px; margin: 0 0 8px 0; text-transform: uppercase; }
+  .form-subtitle { color: #555; margin-bottom: 35px; line-height: 1.5; font-size: 0.9rem; max-width: 600px; }
+
+  .form-row { display: flex; gap: 40px; margin-bottom: 25px; }
+  
+  /* Underline Style: Fixed awkward lines */
+  .field-group { flex: 1; border-bottom: 1px solid #000; position: relative; }
+  
+  .modern-form input, .modern-form select, .modern-form textarea {
+    width: 100%; border: none !important; outline: none !important; 
+    font-size: 1rem; padding: 12px 0; background: transparent; color: #000;
+    box-shadow: none !important;
+  }
+
+  /* Fix for Placeholder/Select color */
+  ::placeholder { color: #888; opacity: 1; }
+  .custom-select { color: #888; cursor: pointer; }
+  .custom-select:focus, .custom-select:valid { color: #000; }
+
+  .floating-label { font-size: 0.7rem; color: #888; text-transform: uppercase; margin-bottom: -5px; display: block; }
+  .full-width { width: 100%; }
+
+  /* Footer Section */
+  .footer-meta { margin-top: 25px; border-top: 1px solid #eee; padding-top: 20px; }
+  .upload-trigger { font-weight: bold; font-size: 0.8rem; cursor: pointer; margin-bottom: 15px; display: inline-block; letter-spacing: 1px; }
+  .privacy-notice { display: flex; gap: 10px; align-items: flex-start; color: #999; font-size: 0.7rem; line-height: 1.4; }
+  .icon { font-size: 1rem; color: #000; }
+
+  /* BUTTON: High Visibility Solid Black */
+  .btn-solid-black { 
+    background: #000 !important; 
+    color: #fff !important; 
+    padding: 16px 60px; 
+    border-radius: 40px; 
+    border: none;
+    font-weight: bold; 
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    cursor: pointer; 
+    margin: 30px auto 0; 
+    transition: background 0.3s, transform 0.2s;
+    display: block;
+  }
+  .btn-solid-black:hover { background: #333 !important; transform: translateY(-1px); }
+
+  /* Toast Notification Styles */
+.toast-popup {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #000; /* Solid Black */
+  color: #fff;
+  padding: 15px 25px;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  animation: slideIn 0.5s ease forwards;
+}
+
+.toast-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.check-icon {
+  background: #fff;
+  color: #000;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+/* The animated progress bar that counts down the 5 seconds */
+.progress-bar {
+  height: 3px;
+  background: #fff;
+  margin-top: 10px;
+  width: 100%;
+  animation: timer 5s linear forwards;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(120%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes timer {
+  from { width: 100%; }
+  to { width: 0%; }
+}
+
+/* Hide animation for when it disappears */
+.toast-fade-out {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all 0.5s ease;
+}
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const toast = document.getElementById('flash-toast');
+    if (toast) {
+      // Wait 5 seconds, then fade out
+      setTimeout(() => {
+        toast.classList.add('toast-fade-out');
+        // Remove from DOM after animation finishes
+        setTimeout(() => toast.remove(), 500);
+      }, 5000);
+    }
+  });
+</script>

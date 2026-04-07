@@ -1,0 +1,64 @@
+<div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #000000; line-height: 1.6; max-width: 600px; margin: 0 auto;">
+  
+  <%# Header Section %>
+  <div style="border-bottom: 2px solid #000000; padding-bottom: 10px; margin-bottom: 30px;">
+    <h2 style="font-weight: 300; letter-spacing: 3px; text-transform: uppercase; margin: 0; font-size: 22px;">
+      Project Inquiry Received
+    </h2>
+  </div>
+
+  <p style="font-size: 14px; color: #555555; margin-bottom: 25px;">
+    The following information was submitted through the website contact form:
+  </p>
+
+  <%# Data Table Section %>
+  <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px;">
+    <tr>
+      <td style="padding: 12px 0; border-bottom: 1px solid #000000; font-weight: bold; width: 40%; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;">Client Name:</td>
+      <td style="padding: 12px 0; border-bottom: 1px solid #000000; font-size: 15px;"><%= "#{@web_form.name} #{@web_form.last_name}" %></td>
+    </tr>
+    <tr>
+      <td style="padding: 12px 0; border-bottom: 1px solid #000000; font-weight: bold; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;">Company:</td>
+      <td style="padding: 12px 0; border-bottom: 1px solid #000000; font-size: 15px;"><%= @web_form.company %></td>
+    </tr>
+    <tr>
+      <td style="padding: 12px 0; border-bottom: 1px solid #000000; font-weight: bold; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;">Email Address:</td>
+      <td style="padding: 12px 0; border-bottom: 1px solid #000000; font-size: 15px;">
+        <a href="mailto:<%= @web_form.email %>" style="color: #000000; text-decoration: none; border-bottom: 1px dotted #000;"><%= @web_form.email %></a>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding: 12px 0; border-bottom: 1px solid #000000; font-weight: bold; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;">Project Budget:</td>
+      <td style="padding: 12px 0; border-bottom: 1px solid #000000; font-size: 15px;"><%= @web_form.budget %></td>
+    </tr>
+    <tr>
+      <td style="padding: 12px 0; border-bottom: 1px solid #000000; font-weight: bold; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;">Payment Method:</td>
+      <td style="padding: 12px 0; border-bottom: 1px solid #000000; font-size: 15px;"><%= @web_form.payment_method %></td>
+    </tr>
+    <tr>
+      <td style="padding: 12px 0; border-bottom: 1px solid #000000; font-weight: bold; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;">Contact Date:</td>
+      <td style="padding: 12px 0; border-bottom: 1px solid #000000; font-size: 15px;"><%= @web_form.contact_date.strftime("%B %d, %Y") %></td>
+    </tr>
+  </table>
+
+  <%# Message Section %>
+  <div style="margin-top: 20px;">
+    <p style="font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; color: #888888; margin-bottom: 8px;">Message Content</p>
+    <div style="background-color: #FAFAFA; padding: 20px; border-left: 4px solid #000000; font-style: italic; color: #333333;">
+      "<%= @web_form.message %>"
+    </div>
+  </div>
+
+  <%# Action Button %>
+  <div style="margin-top: 40px; text-align: center;">
+    <a href="mailto:<%= @web_form.email %>" 
+       style="display: inline-block; background-color: #000000; color: #FFFFFF; padding: 16px 45px; text-decoration: none; border-radius: 40px; font-weight: bold; font-size: 14px; letter-spacing: 1px; text-transform: uppercase;">
+      Reply to Inquiry
+    </a>
+  </div>
+
+  <%# Timestamp Footer %>
+  <p style="margin-top: 50px; font-size: 11px; color: #AAAAAA; text-align: center; text-transform: uppercase; letter-spacing: 1px;">
+    Submitted on <%= Time.current.strftime("%d %b %Y at %H:%M %Z") %>
+  </p>
+</div>
